@@ -1,0 +1,269 @@
+
+
+
+/* Carrito en la esquina */
+.carrito {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .carrito:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Contenido del carrito */
+  .carrito-contenido {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-height: 300px;
+    overflow-y: auto;
+    width: 200px;
+  }
+  
+  .carrito-contenido ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .carrito-contenido li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+  
+  /* Resto del CSS ya existente para productos, modal, etc. */
+  
+  /* Contenedor principal */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Título */
+  .titulo {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Estilo para los productos */
+  .productos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Estilo para cada producto */
+  .producto {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+    overflow: hidden;
+    animation: fadeInUp 1s ease-in-out;
+  }
+  
+  .producto:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Imagen del producto */
+  .producto-imagen {
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  .producto-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .producto-imagen img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Información del producto */
+  .producto-info h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .producto-info p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  /* Botón "Ver más" */
+  .ver-mas-btn {
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ver-mas-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Calificación de producto */
+  .producto-calificacion {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .star {
+    font-size: 1.5rem;
+    color: #ddd;
+  }
+  
+  .star.filled {
+    color: #fff;
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+  
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: modalFadeIn 0.5s ease-in-out;
+  }
+  
+  .modal-contenido {
+    background: black;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    width: 80%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Estilo para la imagen */
+  .modal-imagen {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+  
+  .modal-imagen img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+  }
+  
+  /* Información del producto en el modal */
+  .modal-info {
+    flex: 2;
+    font-size: 1.2rem;
+  }
+  
+  .modal-info h3 {
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 15px;
+  }
+  
+  .modal-info p {
+    margin-bottom: 15px;
+    color: #fff;
+  }
+  
+  .modal-botones {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .modal-agregar,
+  .modal-cerrar {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #fff;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-agregar:hover,
+  .modal-cerrar:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Animación para el modal */
+  @keyframes modalFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+  }
+  

@@ -1,0 +1,48 @@
+/* Estilo común para los títulos de registro e ingreso */
+.titulo-registro {
+  text-align: center; /* Centra el texto */
+  border-bottom: 15px solid #007bff; /* Línea azul debajo del título */
+  margin-bottom: 0px; /* Espacio entre la línea y el resto del formulario */
+}
+
+.titulo-registro h2 {
+  color: #333; /* Color del texto */
+  font-size: 24px; /* Tamaño del texto */
+  font-weight: bold; /* Estilo en negrita */
+}
+
+/* Estilos globales */
+html, body {
+  font-size: 16px; /* Tamaño de fuente base */
+}
+
+p-card {
+  width: 900px; /* Ancho uniforme */
+  padding: 1.5rem; /* Relleno más reducido */
+}
+
+.field {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 1rem; /* Tamaño de la etiqueta */
+}
+
+input {
+  font-size: 1rem; /* Tamaño del input */
+  padding: 0.8rem;
+  width: 100%; /* Para asegurar que ocupe todo el ancho disponible */
+}
+
+.p-button {
+  font-size: 1rem; /* Tamaño de los botones */
+  padding: 0.8rem;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.mt-2 {
+  font-size: 1rem; /* Tamaño de la fuente en la parte de "No tienes cuenta" */
+}

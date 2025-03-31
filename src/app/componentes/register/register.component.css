@@ -1,0 +1,13 @@
+/* Estilo para centrar el título 'Registro' */
+.titulo-registro {
+    text-align: center; /* Centra el texto */
+    border-bottom: 20px solid #007bff; /* Línea azul debajo del título */
+    margin-bottom: 20px; /* Espacio entre la línea y el resto del formulario */
+  }
+  
+  .titulo-registro h2 {
+    color: #333; /* Color del texto */
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Estilo en negrita */
+  }
+  

@@ -1,0 +1,68 @@
+<app-toolbar></app-toolbar>
+<p></p>
+<form [formGroup]="registroForma" (ngSubmit)="enviarRegistro()">
+  <p-card header="" [style]="{width: '900px'}">
+    <div class="field">
+      <!-- Título Registro centrado y con línea azul -->
+      <div class="titulo-registro">
+        <h2>Registro</h2>
+      </div>
+
+      <label for="full_name">Nombre</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="full_name"
+        class="w-full"
+        name="full_name"
+        placeholder="Ingresa tu nombre"
+      />
+
+      <label for="email">Correo electrónico</label>
+      <input 
+        type="text"
+        pInputText
+        formControlName="email"
+        class="w-full"
+        name="email"
+        placeholder="Ingresar"
+      />
+
+      <label for="password">Contraseña</label>
+      <input 
+        type="password"
+        pInputText
+        formControlName="password"
+        class="w-full"
+        name="password"
+        placeholder="Contraseña"
+      />
+      <p *ngIf="registroForma.get('password')?.hasError('minlength') && registroForma.get('password')?.touched" style="color: blue;">
+        La contraseña debe tener al menos 8 caracteres.
+      </p>
+      <p *ngIf="registroForma.get('password')?.hasError('pattern') && registroForma.get('password')?.touched" style="color: blue;">
+        La contraseña debe contener al menos una letra mayúscula, una minúscula y un carácter especial.
+      </p>
+
+      <label for="confirmPassword">Confirmar Contraseña</label>
+      <input 
+        type="password"
+        pInputText
+        formControlName="confirmPassword"
+        class="w-full"
+        name="confirmPassword"
+        placeholder="Confirmar contraseña"
+      />
+      <p *ngIf="registroForma.hasError('passwordMismatch')" style="color: blue;">
+        ⚠️ Las contraseñas no coinciden
+      </p>
+
+      <p>
+        <p-button label="Registrarse" styleClass="w-full" [style]="{backgroundColor: '#007bff', borderColor: '#007bff', color: 'white'}" [disabled]="registroForma.invalid" type="submit"></p-button>
+      </p>
+      <div class="mt-2">
+        Ya tienes cuenta? <a routerLink="/login" style="color: blue;">Ingresar</a>
+      </div>
+    </div>
+  </p-card>
+</form>

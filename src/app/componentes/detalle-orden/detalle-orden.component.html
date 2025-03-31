@@ -1,0 +1,35 @@
+<div class="header">
+    <app-navbar></app-navbar>
+  </div>
+  
+  <p-card header="Detalle de Orden" [style]="{ width: '100%' }">
+    <div class="contenedor-detalle-orden">
+      <!-- Sección de Detalle de Orden -->
+      <div class="seccion-detalle-orden">
+        <h3>Lista de Detalles de Orden</h3>
+        <p-table [value]="detallesOrden" [responsive]="true" class="tabla-detalle-orden">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Orden ID</th>
+              <th>Producto ID</th>
+              <th>Cantidad</th>
+              <th>Precio Unitario</th>
+              <th>Total</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-detalle>
+            <tr>
+              <td>{{ detalle.id }}</td>
+              <td>{{ detalle.orden_id }}</td>
+              <td>{{ detalle.producto_id }}</td>
+              <td>{{ detalle.cantidad }}</td>
+              <td>{{ detalle.precio_unitario | currency }}</td>
+              <td>{{ detalle.cantidad * detalle.precio_unitario | currency }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+  

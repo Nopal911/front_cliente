@@ -1,0 +1,45 @@
+<div class="header custom-container">
+    <app-toolbar></app-toolbar>
+  </div>
+  
+  <p></p>
+  
+  <form [formGroup]="loginForma" (ngSubmit)="login()">
+    <p-card header="" [style]="{width: '900px'}">
+      <div class="field">
+        <!-- Título Ingreso centrado y con línea azul -->
+        <div class="titulo-registro">
+          <h2>Ingreso</h2> <!-- Título de ingreso igual al de registro -->
+        </div>
+  
+        <label for="email">Correo electrónico</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          name="email"
+          placeholder="Ingresar"
+        />
+  
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          pInputText
+          formControlName="password"
+          class="w-full"
+          name="password"
+          placeholder="Contraseña"
+        />
+  
+        <p>
+          <p-button label="Ingresar" styleClass="w-full" [disabled]="loginForma.invalid" type="submit"></p-button>
+        </p>
+  
+        <div class="mt-2">
+          No tienes cuenta? <a routerLink="/register" style="color: blue;">¡Regístrate!</a>
+        </div>
+      </div>
+    </p-card>
+  </form>
+  

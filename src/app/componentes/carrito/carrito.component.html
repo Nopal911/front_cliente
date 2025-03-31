@@ -1,0 +1,30 @@
+<div class="header">
+  <app-navbar></app-navbar>
+</div>
+
+<p-card header="Carrito de Compras" [style]="{ width: '100%' }">
+  <div class="contenedor-carrito">
+    <!-- Sección de Carrito -->
+    <div class="seccion-carrito">
+      <h3>Lista de Productos en el Carrito</h3>
+      <p-table [value]="carrito" [responsive]="true" class="tabla-carrito">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ID Carrito</th>
+            <th>Correo del Usuario</th>
+            <th>ID Producto</th>
+            <th>Cantidad</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.usuario_email }}</td>
+            <td>{{ item.producto_id }}</td>
+            <td>{{ item.cantidad }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-card>

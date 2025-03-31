@@ -1,0 +1,22 @@
+<div class="card">
+    <p-toolbar>
+        <ng-template #start>
+            <img src="/motopng.png" alt="logo" width="50px" height="50px">
+        </ng-template>
+        <ng-template #start>
+            <p-button icon="pi pi-plus" class="mr-2" text severity="secondary" />
+            <p-button icon="pi pi-print" class="mr-2" text severity="secondary" />
+            <p-button icon="pi pi-upload" text severity="secondary" />
+        </ng-template>
+        <ng-template #center>
+        </ng-template>
+        <ng-template #end>
+            <p-splitbutton 
+                label="Cuenta" 
+                icon="pi pi-user" 
+                [model]="items" 
+                [style]="{backgroundColor: '#007bff', borderColor: '#007bff', color: 'white'}" 
+                class="p-button-outlined" />
+        </ng-template>
+    </p-toolbar>
+</div>

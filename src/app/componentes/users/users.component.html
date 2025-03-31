@@ -1,0 +1,87 @@
+<div class="header">
+  <app-navbar></app-navbar>
+</div>
+
+<p-card header="Gestión de Usuarios" [style]="{ width: '100%' }">
+  <div class="contenedor-usuarios">
+    <!-- Sección del Formulario -->
+    <div class="seccion-formulario">
+      <h3>{{ editando ? 'Editar Usuario' : 'Agregar Usuario' }}</h3>
+      <form (ngSubmit)="editando ? actualizarUsuario() : agregarUsuario()" [formGroup]="usuarioForm">
+        <div class="p-fluid">
+          <div class="field">
+            <label for="full_name">Nombre Completo</label>
+            <input id="full_name" type="text" formControlName="full_name" class="input-texto" />
+            <div *ngIf="usuarioForm.get('full_name')?.invalid && usuarioForm.get('full_name')?.touched" class="error-message">
+              El nombre completo es obligatorio.
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" class="input-texto" (blur)="verificarCorreoExistente(nuevoUsuario.email)" />
+            <div *ngIf="usuarioForm.get('email')?.invalid && usuarioForm.get('email')?.touched" class="error-message">
+              El email es obligatorio y debe ser válido.
+            </div>
+            <div *ngIf="correoExistente" class="error-message">
+              El correo electrónico ya está registrado.
+            </div>
+          </div>
+          <div class="field">
+            <label for="password">Contraseña</label>
+            <input id="password" type="password" formControlName="password" class="input-texto" (blur)="verificarContrasenaInvalida(nuevoUsuario.password)" />
+            <div *ngIf="usuarioForm.get('password')?.invalid && usuarioForm.get('password')?.touched" class="error-message">
+              La contraseña es obligatoria y debe tener al menos 6 caracteres.
+            </div>
+            <div *ngIf="contrasenaInvalida" class="error-message">
+              La contraseña no es válida (es una contraseña común).
+            </div>
+          </div>
+          <div class="field">
+            <label for="role">Rol</label>
+            <select id="role" formControlName="role" class="input-texto">
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+          <p>
+            <button type="submit" class="boton-agregar" [disabled]="usuarioForm.invalid || correoExistente || contrasenaInvalida">
+              {{ editando ? 'Actualizar' : 'Agregar' }}
+            </button>
+          </p>
+        </div>
+      </form>
+      <!-- Botón para cancelar la edición y volver al estado de agregar usuario -->
+      <p *ngIf="editando">
+        <button type="button" (click)="salirEdicion()" class="boton-cancelar">
+          Cancelar Edición
+        </button>
+      </p>
+    </div>
+
+    <!-- Sección de Usuarios -->
+    <div class="seccion-usuarios">
+      <h3>Lista de Usuarios</h3>
+      <p-table [value]="usuarios" [responsive]="true" class="tabla-usuarios">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-usuario>
+          <tr>
+            <td>{{ usuario.full_name }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.role }}</td>
+            <td>
+              <p-button icon="pi pi-pencil" styleClass="boton-accion boton-editar" (click)="editarUsuario(usuario)"></p-button>
+              <p-button icon="pi pi-trash" styleClass="boton-accion boton-eliminar" (click)="eliminarUsuario(usuario.email)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-card>

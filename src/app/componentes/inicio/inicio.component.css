@@ -1,0 +1,148 @@
+/* Estilos solo para el componente inicio */
+.inicio-wrapper .background-card {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+.inicio-wrapper .card-image img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+.inicio-wrapper .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.inicio-wrapper .overlay h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.inicio-wrapper .overlay p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    max-width: 80%;
+}
+
+.inicio-wrapper .button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Estilos de categorías */
+.categorias {
+  padding: 4rem 0;
+  background-color: #f5f5f5;
+}
+
+.categorias-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: #333;
+}
+
+.categoria {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.categoria:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.categoria-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categoria-info {
+  width: 50%;
+  padding: 1rem;
+}
+
+.categoria-info h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.categoria-info p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.categoria-image {
+  width: 40%;
+  padding: 1rem;
+}
+
+.categoria-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.p-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.p-button-rounded {
+  border-radius: 50px;
+}
+
+/* Animaciones para las categorías */
+.categoria {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s forwards;
+}
+
+.categoria:nth-child(1) {
+  animation-delay: 0.2s;
+}
+
+.categoria:nth-child(2) {
+  animation-delay: 0.4s;
+}
+
+.categoria:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

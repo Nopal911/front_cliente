@@ -1,0 +1,36 @@
+<div class="header">
+    <app-navbar></app-navbar>
+</div>
+
+<div class="titulo">
+    <h1>Contactanos</h1>
+</div>
+
+<div class="descripcion">
+    <h2>Si tienes alguna sugerencia, duda o comentario no dudes en contactarnos, ¡Estamos para ayudarte!</h2>
+</div>
+
+<div class="contact-container">
+    <h2 class="contact-title">Contáctanos</h2>
+    <div class="contact-box">
+        <p class="contact-instructions">Si tienes dudas o comentarios, por favor contáctanos. Estamos aquí para ayudarte.</p>
+        <button class="contact-button" (click)="openModal()">Contáctanos</button>
+    </div>
+</div>
+
+<!-- Modal de contacto -->
+<div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+        <span class="close-button" (click)="closeModal()">&times;</span>
+        <h3>Enviar comentario</h3>
+        <form (ngSubmit)="submitComment()">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required placeholder="Ingresa tu correo" [(ngModel)]="contacto.correo">
+
+            <label for="comment">Comentario:</label>
+            <textarea id="comment" name="comment" required placeholder="Escribe tu comentario" [(ngModel)]="contacto.comentario"></textarea>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+</div>

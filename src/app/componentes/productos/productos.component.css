@@ -1,0 +1,63 @@
+.contenedor-productos {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Estilos para el formulario */
+.seccion-formulario {
+  background: #f4f7fc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
+}
+
+.seccion-formulario h3 {
+  color: #007ad9;
+  text-align: center;
+}
+
+/* Campos de entrada */
+.input-texto {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #dcdcdc;
+}
+
+/* Botón Agregar */
+.boton-agregar {
+  width: 100%;
+  background-color: #007ad9 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Sección de productos */
+.seccion-productos {
+  width: 58%;
+}
+
+.tabla-productos {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los botones de acciones */
+.boton-accion {
+  margin-right: 5px;
+}
+
+.boton-editar {
+  background-color: #ffc107 !important;
+  color: black !important;
+}
+
+.boton-eliminar {
+  background-color: #dc3545 !important;
+  color: white !important;
+}

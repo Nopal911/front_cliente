@@ -1,0 +1,66 @@
+<div class="header">
+    <app-navbar></app-navbar>
+  </div>
+  
+  <p-card header="Gestión de Órdenes" [style]="{ width: '100%' }">
+    <div class="contenedor-productos">
+      <!-- Sección del Formulario -->
+      <div class="seccion-formulario">
+        <h3>Editar Estado de la Orden</h3>
+        <form (ngSubmit)="updateOrden()">
+          <div class="p-fluid">
+            <div class="field">
+              <label for="usuario_email">Correo del Usuario</label>
+              <input type="email" id="usuario_email" class="input-texto" [(ngModel)]="newOrden.usuario_email" name="usuario_email" disabled>
+            </div>
+            <div class="field">
+              <label for="total">Total</label>
+              <input type="number" id="total" class="input-texto" [(ngModel)]="newOrden.total" name="total" disabled>
+            </div>
+            <div class="field">
+              <label for="estado">Estado</label>
+              <select id="estado" class="input-texto" [(ngModel)]="newOrden.estado" name="estado" required>
+                <option value="pendiente">Pendiente</option>
+                <option value="pagado">Pagado</option>
+                <option value="enviado">Enviado</option>
+                <option value="entregado">Entregado</option>
+              </select>
+            </div>
+            <p>
+              <!-- El botón de actualización solo aparece si editMode es verdadero -->
+              <p-button [label]="'Actualizar Estado'" icon="pi pi-check" styleClass="boton-agregar" *ngIf="editMode" type="submit"></p-button>
+            </p>
+          </div>
+        </form>
+      </div>
+  
+      <!-- Sección de Órdenes -->
+      <div class="seccion-productos">
+        <h3>Lista de Órdenes</h3>
+        <p-table [value]="ordenes" [responsive]="true" class="tabla-productos">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Correo del Usuario</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-orden>
+            <tr>
+              <td>{{ orden.usuario_email }}</td>
+              <td>{{ orden.fecha | date:'short' }}</td>
+              <td>{{ orden.total | currency }}</td>
+              <td>{{ orden.estado }}</td>
+              <td>
+                <!-- Botón de editar, activa el modo de edición al hacer clic -->
+                <p-button icon="pi pi-pencil" styleClass="boton-accion boton-editar" (click)="editOrder(orden)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>
+  

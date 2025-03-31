@@ -1,0 +1,32 @@
+<div class="inicio-wrapper">
+    <div class="card-image">
+      <img src="/cross.jpg" alt="Moto Accessories" />
+      <div class="overlay">
+        <h1>¡Accesorios para tu Moto!</h1>
+        <p>Descubre los mejores productos para personalizar y mejorar el rendimiento de tu moto.</p>
+        <div class="button-group">
+          <p-button label="Ver Productos" icon="pi pi-shopping-cart" [routerLink]="['/productos']" class="p-button-rounded p-button-info"></p-button>
+          <p-button label="Contáctanos" icon="pi pi-phone" [routerLink]="['/contacto']" class="p-button-rounded p-button-warning"></p-button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de categorías -->
+    <div class="categorias">
+      <h2 class="categorias-title">Categorías</h2>
+  
+      <div class="categoria" *ngFor="let categoria of categorias">
+        <div class="categoria-content">
+          <div class="categoria-info">
+            <h3>{{ categoria.title }}</h3>
+            <p>{{ categoria.description }}</p>
+            <p-button label="Ver más" icon="pi pi-arrow-right" class="p-button-rounded" [routerLink]="[categoria.route]"></p-button>
+          </div>
+          <div class="categoria-image">
+            <img [src]="categoria.image" alt="Categoria" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

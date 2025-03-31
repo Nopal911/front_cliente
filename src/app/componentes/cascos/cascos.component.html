@@ -1,0 +1,68 @@
+<div class="class header">
+  <app-navbar></app-navbar>
+</div>
+
+<div class="container">
+  <h2 class="titulo">Cascos Disponibles</h2>
+
+  
+  <!-- Cascos Deportivos -->
+  <h3 class="seccion-titulo">Cascos Deportivos</h3>
+  <div class="productos">
+    <div class="producto" *ngFor="let producto of cascosDeportivos">
+      <div class="producto-imagen">
+        <img *ngFor="let imagen_url of producto.imagenes" [src]="'http://localhost:4200' + imagen_url" alt="{{ producto.nombre }}" />
+      </div>
+      <div class="producto-info">
+        <h3>{{ producto.nombre }}</h3>
+        <p><strong>Precio:</strong> {{ producto.precio | currency }}</p>
+        <button (click)="verMas(producto)" class="ver-mas-btn">Ver más</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cascos Todo Terreno -->
+  <h3 class="seccion-titulo">Cascos Todo Terreno</h3>
+  <div class="productos">
+    <div class="producto" *ngFor="let producto of cascosTodoTerreno">
+      <div class="producto-imagen">
+        <img *ngFor="let imagen_url of producto.imagenes" [src]="'http://localhost:4200' + imagen_url" alt="{{ producto.nombre }}" />
+      </div>
+      <div class="producto-info">
+        <h3>{{ producto.nombre }}</h3>
+        <p><strong>Precio:</strong> {{ producto.precio | currency }}</p>
+        <button (click)="verMas(producto)" class="ver-mas-btn">Ver más</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div *ngIf="productoSeleccionado" class="modal">
+    <div class="modal-contenido">
+      <div class="modal-imagen">
+        <img *ngFor="let imagen_url of productoSeleccionado.imagenes" 
+             [src]="'http://localhost:4200' + imagen_url" 
+             alt="{{ productoSeleccionado.nombre }}" />
+      </div>
+
+      <div class="modal-info">
+        <h3>{{ productoSeleccionado.nombre }}</h3>
+        <p>{{ productoSeleccionado.descripcion }}</p>
+        <p><strong>Precio:</strong> {{ productoSeleccionado.precio | currency }}</p>
+        <p><strong>Stock:</strong> {{ productoSeleccionado.stock }}</p>
+        <p><strong>Color:</strong> {{ productoSeleccionado.color }}</p>
+        <p><strong>Talla:</strong> {{ productoSeleccionado.talla }}</p>
+        <div class="producto-calificacion">
+          <ng-container *ngFor="let star of [].constructor(5); let i = index">
+            <span [class.filled]="i < productoSeleccionado.ranking" class="star">★</span>
+          </ng-container>
+        </div>
+        <div class="modal-botones">
+          <button  class="modal-agregar">Agregar al carrito</button>
+          <button (click)="cerrarModal()" class="modal-cerrar">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

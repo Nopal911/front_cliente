@@ -1,0 +1,100 @@
+<div class="header">
+  <app-navbar></app-navbar>
+</div>
+<p-card header="Gestión de Productos" [style]="{ width: '100%' }">
+  <div class="contenedor-productos">
+    <!-- Sección del Formulario -->
+    <div class="seccion-formulario">
+      <h3>{{ productoEdicion ? 'Editar Producto' : 'Agregar Producto' }}</h3>
+      <form [formGroup]="productoForm" (ngSubmit)="agregarProducto()" enctype="multipart/form-data">
+        <div class="p-fluid">
+          <div class="field">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" type="text" pInputText formControlName="nombre" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="descripcion">Descripción</label>
+            <input id="descripcion" type="text" pInputText formControlName="descripcion" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="precio">Precio</label>
+            <input id="precio" type="number" pInputText formControlName="precio" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="stock">Stock</label>
+            <input id="stock" type="number" pInputText formControlName="stock" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="categoria_id">Categoría</label>
+            <input id="categoria_id" type="text" pInputText formControlName="categoria_id" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="color">Color</label>
+            <input id="color" type="text" pInputText formControlName="color" class="input-texto"/>
+          </div>
+          <div class="field">
+            <label for="talla">Talla</label>
+            <p-dropdown 
+              id="talla" 
+              [options]="tallasDisponibles" 
+              formControlName="talla" 
+              placeholder="Seleccione una talla">
+            </p-dropdown>
+          </div>
+          <div class="field">
+            <label for="imagen_url">Imagen</label>
+            <input id="imagen_url" type="file" (change)="onFileChange($event)" />
+          </div>
+          <p>
+            <p-button 
+  [label]="productoEdicion ? 'Actualizar' : 'Agregar'" 
+  icon="pi pi-plus" 
+  styleClass="boton-agregar" 
+  [disabled]="productoForm.invalid" 
+  (click)="agregarProducto()">
+</p-button>
+
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sección de Productos -->
+    <div class="seccion-productos">
+      <h3>Lista de Productos</h3>
+      <p-table [value]="productos" [responsive]="true" class="tabla-productos">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Categoría</th>
+            <th>Ranking</th>
+            <th>Color</th>
+            <th>Talla</th>
+            <th>Imagen</th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-producto>
+          <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.categoria_id }}</td>
+            <td>{{ producto.ranking }}</td>
+            <td>{{ producto.color }}</td>
+            <td>{{ producto.talla }}</td>
+            <td><img [src]="producto.imagen_url" alt="Imagen del producto" width="50" height="50"></td>
+            <td>
+              <p-button icon="pi pi-pencil" styleClass="boton-accion boton-editar" (click)="editarProducto(producto)"></p-button>
+              <p-button icon="pi pi-trash" styleClass="boton-accion boton-eliminar" (click)="eliminarProducto(producto.id)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-card>
