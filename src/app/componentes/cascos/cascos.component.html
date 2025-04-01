@@ -57,12 +57,15 @@
             <span [class.filled]="i < productoSeleccionado.ranking" class="star">★</span>
           </ng-container>
         </div>
+        <div>
+          <input type="number" pInputText placeholder="Cantidad" id="txtCantidad">
+        </div>
         <div class="modal-botones">
-          <button  class="modal-agregar">Agregar al carrito</button>
+          <button  class="modal-agregar" (click)="agregarAlCarrito()">Agregar al carrito</button>
           <button (click)="cerrarModal()" class="modal-cerrar">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div> 
 

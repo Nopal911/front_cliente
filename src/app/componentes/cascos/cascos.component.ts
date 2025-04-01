@@ -4,6 +4,7 @@ import { Producto } from '../../interfaces/producto';
 import { CarritoService } from '../../servicios/carrito.service';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { OrdenService } from '../../servicios/orden.service';
 
 @Component({
   selector: 'app-cascos',
@@ -16,10 +17,12 @@ export class CascosComponent implements OnInit {
   cascosDeportivos: Producto[] = [];
   cascosTodoTerreno: Producto[] = [];
   productoSeleccionado: Producto | null = null;
+  cantidad = 0;
 
   constructor(
     private productoService: ProductoService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private ordenService: OrdenService
   ) {}
 
   ngOnInit(): void {
@@ -54,17 +57,50 @@ export class CascosComponent implements OnInit {
 
   agregarAlCarrito() {
     if (this.productoSeleccionado) {
-      const carritoItem = {
-        usuario_email: "correo@example.com",
-        producto_id: this.productoSeleccionado.id ? Number(this.productoSeleccionado.id) : undefined, // Convertir a número
-        cantidad: 1
-      };
-  
-      this.carritoService.addCarrito(carritoItem).subscribe(response => {
-        alert('Producto agregado al carrito');
-        this.cerrarModal();
-      });
+      var bandera = this.validarCantidad();
+
+      var cantidad = 0;
+      if (bandera) {
+        var txtCantidad = document.getElementById("txtCantidad");
+        cantidad = parseInt((<HTMLInputElement>txtCantidad).value);
+
+
+        // Se obtiene la sesion
+        let email = sessionStorage.getItem("email");
+
+        const carritoItem = {
+          usuario_email: email!,
+          producto_id: parseInt(this.productoSeleccionado.id!), // Convertir a número
+          cantidad: cantidad
+        };
+    
+        this.carritoService.addCarrito(carritoItem).subscribe(response => {
+          alert('Producto agregado al carrito');
+          this.cerrarModal();
+        });
+      }
+
+      
+      
     }
+ }
+
+
+  validarCantidad() { 
+    var bandera = true;
+    var cantidad = document.getElementById("txtCantidad");
+
+    if (cantidad) {
+      let cant = parseInt((<HTMLInputElement>cantidad).value);
+      if (cant <= 0 || isNaN(cant)) {
+        alert("Ingresa una cantidad mayor a cero");
+        bandera = false;
+      }
+    } else {
+      bandera = false;
+    }
+
+    return bandera;
   }
   
   

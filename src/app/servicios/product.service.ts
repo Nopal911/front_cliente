@@ -16,7 +16,7 @@ export class ProductoService {
   }  
 
   obtenerProductos(): Observable<any> {
-    return this.http.get<any>(this.baseURL);
+    return this.http.get<Producto[]>(this.baseURL);
   }
 
   agregarProducto(producto: FormData): Observable<any> {
@@ -42,4 +42,6 @@ export class ProductoService {
   deleteProducto(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`);
   }
+
+  
 }

@@ -16,6 +16,7 @@ import { LucesComponent } from './componentes/luces/luces.component';
 import { RopaComponent } from './componentes/ropa/ropa.component';
 import { ContactoComponent } from './componentes/contacto/contacto.component';
 import { CrudcontactoComponent } from './componentes/crudcontacto/crudcontacto.component';
+import { CarritouserComponent } from './componentes/carritouser/carritouser.component';
 
 export const routes: Routes = [
     {
@@ -99,6 +100,10 @@ export const routes: Routes = [
     {
         path: 'crudcontacto',
         component: CrudcontactoComponent
+    },
+    {
+        path: 'carritouser',
+        component: CarritouserComponent
     }
     
 ];

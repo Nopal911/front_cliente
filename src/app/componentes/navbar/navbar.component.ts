@@ -31,6 +31,7 @@ export class NavbarComponent implements OnInit {
       { label: 'Detalle Orden', icon: 'pi pi-list', routerLink: '/detalleorden' },
       { label: 'Contacto', icon:'pi pi-phone', routerLink: '/contacto'},
       { label: 'crud contacto', icon: "pi pi-phone", routerLink: '/crudcontacto'},
+      { label: 'carrito-user', icon: 'pi pi-shopping-cart', routerLink:'/carritouser'},
       {
         label: 'Cuenta',
         icon: 'pi pi-user',
