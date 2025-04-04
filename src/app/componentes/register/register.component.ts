@@ -1,24 +1,27 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ModprimengModule } from '../../modprimeng.module';
-import { Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';  // Necesario para *ngIf y otras directivas comunes
-import { passwordMatchValidator } from '../../shared/password-match.directives';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 import { MessageService } from 'primeng/api';
 import { User } from '../../interfaces/user';
+import { passwordMatchValidator } from '../../shared/password-match.directives';
+import { CardModule } from 'primeng/card';
 import { ToolbarBasicDemo } from '../toolbar/toolbar.component';
+import { ButtonModule } from 'primeng/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, ModprimengModule, RouterModule, CommonModule,ToolbarBasicDemo],  // Importamos CommonModule para *ngIf
   templateUrl: './register.component.html',
+  imports: [CardModule,ToolbarBasicDemo,ButtonModule,ReactiveFormsModule,CommonModule],
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
   registroForma: FormGroup;
+  showModal: boolean = false;  // Variable para controlar la visibilidad del modal
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router:Router ) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) {
     this.registroForma = this.fb.group({
       full_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]],
       email: ['', [Validators.required, Validators.email]],
@@ -30,45 +33,50 @@ export class RegisterComponent {
         Validators.pattern('.*[!@#$%^&*(),.?":{}|<>].*') // Al menos un carácter especial
       ]],
       confirmPassword: ['', [Validators.required]]
-    }, { validators: passwordMatchValidator});
+    }, { validators: passwordMatchValidator });
   }
 
-  passwordsMatch(formGroup: FormGroup) {
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { passwordMismatch: true };
+  onSubmit() {
+    // Mostrar modal de términos y condiciones
+    if (this.registroForma.valid) {
+      this.showModal = true; // Mostrar el modal
+    }
   }
 
-  get full_name() {
-    return this.registroForma.controls['nombre'];
-  }
-
-  get email() {
-    return this.registroForma.controls['email'];
-  }
-
-  get password() {
-    return this.registroForma.controls['password'];
-  }
-
-  get confirmPassword() {
-    return this.registroForma.controls['confirmPassword'];
-  }
-
-  enviarRegistro() {
-    const data = {...this.registroForma.value};
-    console.log('Datos: ', data)
-    delete data.confirmPassword;
-    data.id = "1"
+  aceptarTerminos() {
+    const data = { ...this.registroForma.value };
+    delete data.confirmPassword;  // Eliminar confirmPassword antes de enviar
+    data.id = "1";  // Solo un ejemplo de asignación de ID
 
     this.authService.registroUsuario(data as User).subscribe(
       response => {
-        console.log(response)
-        this.messageService.add({severity:'success', summary: 'success',
+        console.log(response);
+        this.messageService.add({
+          severity: 'success', 
+          summary: 'Éxito',
           detail: 'Registro Agregado con éxito'
-        })
+        });
+        this.router.navigate(['/login']);  // Redirigir al login
       },
-      error => console.log(error) //me quede en este paso, pagina 52
-    )
-   }
+      error => {
+        console.log(error);
+        this.messageService.add({
+          severity: 'error', 
+          summary: 'Error',
+          detail: 'Hubo un problema al registrar el usuario.'
+        });
+      }
+    );
+    this.showModal = false; // Ocultar modal después de aceptar
+  }
+
+  cancelarTerminos() {
+    this.showModal = false;  // Solo cerrar el modal
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'El usuario no se creó.'
+    });
+    this.router.navigate(['/login']);  // Redirigir al login
+  }
 }

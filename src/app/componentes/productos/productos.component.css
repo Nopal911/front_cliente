@@ -16,6 +16,7 @@
 .seccion-formulario h3 {
   color: #007ad9;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 /* Campos de entrada */
@@ -24,6 +25,7 @@
   padding: 0.5rem;
   border-radius: 5px;
   border: 1px solid #dcdcdc;
+  margin-bottom: 1rem;
 }
 
 /* Botón Agregar */
@@ -60,4 +62,44 @@
 .boton-eliminar {
   background-color: #dc3545 !important;
   color: white !important;
+}
+
+/* Estilos para el dropdown */
+.p-dropdown {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* Estilos para el campo de imagen */
+input[type="file"] {
+  margin-bottom: 1rem;
+}
+
+/* Estilos para el botón "Cancelar Edición" */
+.boton-cancelar {
+  width: 100%;
+  background-color: #f44336 !important;  /* Rojo brillante */
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.boton-cancelar:hover {
+  background-color: #e53935 !important;  /* Rojo más oscuro al pasar el ratón */
+  transform: scale(1.05);  /* Efecto de escalado al pasar el ratón */
+}
+
+.boton-cancelar:active {
+  background-color: #c62828 !important;  /* Rojo más oscuro al hacer clic */
+  transform: scale(1);  /* Restablece el tamaño después de hacer clic */
+}
+
+.boton-cancelar:focus {
+  outline: none;  /* Elimina el contorno por defecto */
+  box-shadow: 0 0 5px 2px rgba(244, 67, 54, 0.5);  /* Añade sombra al foco */
 }

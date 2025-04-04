@@ -47,16 +47,21 @@
           </div>
           <p>
             <p-button 
-  [label]="productoEdicion ? 'Actualizar' : 'Agregar'" 
-  icon="pi pi-plus" 
-  styleClass="boton-agregar" 
-  [disabled]="productoForm.invalid" 
-  (click)="agregarProducto()">
-</p-button>
-
+              [label]="productoEdicion ? 'Actualizar' : 'Agregar'" 
+              icon="pi pi-plus" 
+              styleClass="boton-agregar" 
+              [disabled]="productoForm.invalid" 
+              (click)="agregarProducto()">
+            </p-button>
           </p>
         </div>
       </form>
+      <!-- Botón para cancelar la edición -->
+      <p *ngIf="productoEdicion">
+        <button type="button" (click)="cancelarEdicion()" class="boton-cancelar">
+          Cancelar Edición
+        </button>
+      </p>
     </div>
 
     <!-- Sección de Productos -->

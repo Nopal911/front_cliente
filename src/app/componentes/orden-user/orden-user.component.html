@@ -1,0 +1,52 @@
+<div class="header">
+    <app-navbar></app-navbar>
+  </div>
+  
+  <!-- Añade estos componentes al inicio del template -->
+  <p-toast></p-toast>
+  <p-confirmDialog 
+    [style]="{width: '450px'}"
+    header="Confirmación" 
+    icon="pi pi-exclamation-triangle"
+    [appendTo]="'body'"
+    [acceptLabel]="'Sí'"
+    [rejectLabel]="'No'"
+  ></p-confirmDialog>
+  
+  <!-- El resto de tu template se mantiene exactamente igual -->
+  <p-card header="Lista de Órdenes" [style]="{ width: '100%' }">
+    <div class="contenedor-productos">
+      <!-- Sección de Órdenes -->
+      <div class="seccion-productos">
+        <p-table [value]="ordenes" [responsive]="true" class="tabla-productos">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Identificación Orden</th>
+              <th>Fecha</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-orden>
+            <tr>
+              <td>{{ orden.id }}</td>
+              <td>{{ orden.fecha | date:'short' }}</td>
+              <td>{{ orden.total | currency }}</td>
+              <td>{{ orden.estado }}</td>
+              <td>
+                <p-button 
+                  icon="pi pi-trash" 
+                  styleClass="p-button-danger" 
+                  (click)="deleteOrden(orden.id)"
+                  [disabled]="orden.estado !== 'pendiente'"
+                  pTooltip="Eliminar orden" 
+                  tooltipPosition="top"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-card>

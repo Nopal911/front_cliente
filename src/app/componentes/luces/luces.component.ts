@@ -4,12 +4,15 @@ import { Producto } from '../../interfaces/producto';
 import { CarritoService } from '../../servicios/carrito.service';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-luces',
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, ToastModule],
   templateUrl: './luces.component.html',
-  styleUrl: './luces.component.css'
+  styleUrl: './luces.component.css',
+  providers: [MessageService]
 })
 export class LucesComponent implements OnInit {
   productos: Producto[] = [];
@@ -20,7 +23,8 @@ export class LucesComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -55,51 +59,70 @@ export class LucesComponent implements OnInit {
 
   agregarAlCarrito() {
     if (this.productoSeleccionado) {
-      var bandera = this.validarCantidad();
+      const bandera = this.validarCantidad();
 
-      var cantidad = 0;
       if (bandera) {
-        var txtCantidad = document.getElementById("txtCantidad");
-        cantidad = parseInt((<HTMLInputElement>txtCantidad).value);
-
+        const txtCantidad = document.getElementById("txtCantidad");
+        const cantidad = parseInt((<HTMLInputElement>txtCantidad).value);
 
         // Se obtiene la sesion
-        let email = sessionStorage.getItem("email");
+        const email = sessionStorage.getItem("email");
+
+        if (!email) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Acceso requerido',
+            detail: 'Debes iniciar sesión para agregar productos al carrito',
+            life: 3000
+          });
+          return;
+        }
 
         const carritoItem = {
-          usuario_email: email!,
-          producto_id: parseInt(this.productoSeleccionado.id!), // Convertir a número
+          usuario_email: email,
+          producto_id: parseInt(this.productoSeleccionado.id!),
           cantidad: cantidad
         };
     
-        this.carritoService.addCarrito(carritoItem).subscribe(response => {
-          alert('Producto agregado al carrito');
-          this.cerrarModal();
+        this.carritoService.addCarrito(carritoItem).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Éxito',
+              detail: 'Producto agregado al carrito',
+              life: 3000
+            });
+            this.cerrarModal();
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'No se pudo agregar el producto al carrito',
+              life: 3000
+            });
+          }
         });
       }
-
-      
-      
     }
   }
 
-  validarCantidad() {
-    var bandera = true;
-    var cantidad = document.getElementById("txtCantidad");
+  validarCantidad(): boolean {
+    const cantidad = document.getElementById("txtCantidad");
 
     if (cantidad) {
-      let cant = parseInt((<HTMLInputElement>cantidad).value);
+      const cant = parseInt((<HTMLInputElement>cantidad).value);
       if (cant <= 0 || isNaN(cant)) {
-        alert("Ingresa una cantidad mayor a cero");
-        bandera = false;
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cantidad inválida',
+          detail: 'Ingresa una cantidad mayor a cero',
+          life: 3000
+        });
+        return false;
       }
-    } else {
-      bandera = false;
+      return true;
     }
-
-    return bandera;
+    return false;
   }
-  
-  
-  
 }

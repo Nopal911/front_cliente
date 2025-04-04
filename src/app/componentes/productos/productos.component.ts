@@ -9,10 +9,10 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-productos',
-  imports: [CardModule, ReactiveFormsModule, TableModule, ButtonModule, NavbarComponent,DropdownModule],
+  imports: [CardModule, ReactiveFormsModule, TableModule, ButtonModule, NavbarComponent, DropdownModule,CommonModule],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css']
 })
@@ -36,7 +36,6 @@ export class ProductosComponent implements OnInit {
     private fb: FormBuilder,
     private messageService: MessageService
   ) {
-    // Definir el formulario reactivo
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -44,63 +43,18 @@ export class ProductosComponent implements OnInit {
       stock: ['', [Validators.required, Validators.min(0)]],
       categoria_id: ['', Validators.required],
       color: [''],
-      talla: ['', Validators.required] // Validación para talla obligatoria
+      talla: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.obtenerProductos();
   }
+
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.selectedFile = file;
   }
-
-
-  /*obtenerProductos(): void {
-    this.productoService.getProductos().subscribe(
-      (response) => {
-        this.productos = response.productos;
-      },
-      (error) => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar los productos.' });
-      }
-    );
-  }*/
-
-  /*agregarProducto(): void {
-    if (this.productoForm.invalid) {
-      return;
-    }
-
-    const producto: Producto = this.productoForm.value;
-
-    if (this.productoEdicion) {
-      producto.id = this.productoEdicion.id;
-      this.productoService.updateProducto(producto).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto actualizado correctamente.' });
-          this.obtenerProductos();
-          this.productoForm.reset();
-          this.productoEdicion = null;
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el producto.' });
-        }
-      );
-    } else {
-      this.productoService.addProducto(producto).subscribe(
-        () => {
-          this.messageService.add({ severity: 'success', summary: 'Éxito', detail: 'Producto agregado correctamente.' });
-          this.obtenerProductos();
-          this.productoForm.reset();
-        },
-        () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo agregar el producto.' });
-        }
-      );
-    }
-  }*/
 
   eliminarProducto(id: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
@@ -118,7 +72,6 @@ export class ProductosComponent implements OnInit {
 
   editarProducto(producto: Producto): void {
     this.productoEdicion = { ...producto };
-    // Rellenamos el formulario con los datos del producto
     this.productoForm.patchValue({
       nombre: producto.nombre,
       descripcion: producto.descripcion,
@@ -128,6 +81,13 @@ export class ProductosComponent implements OnInit {
       color: producto.color,
       talla: producto.talla,
     });
+  }
+
+  // Función para cancelar la edición
+  cancelarEdicion(): void {
+    this.productoEdicion = null;
+    this.productoForm.reset();
+    this.selectedFile = null;
   }
   
   agregarProducto(): void {
@@ -146,33 +106,30 @@ export class ProductosComponent implements OnInit {
     formData.append('color', producto.color);
     formData.append('talla', producto.talla);
   
-    // Si se seleccionó una nueva imagen, la agregamos a formData
     if (this.selectedFile) {
       formData.append('imagen_url', this.selectedFile, this.selectedFile.name);
     }
   
     if (this.productoEdicion) {
-      // Si estamos editando un producto, añadimos el ID al formulario
       formData.append('id', this.productoEdicion.id || '');
   
       this.productoService.updateProducto(formData).subscribe(
         (response) => {
           this.messageService.add({ severity: 'success', summary: 'Producto actualizado', detail: 'El producto se actualizó correctamente.' });
           this.obtenerProductos();
-          this.productoForm.reset();
-          this.productoEdicion = null;
+          this.cancelarEdicion();
         },
         (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el producto.' });
         }
       );
     } else {
-      // Si no estamos editando, agregamos un nuevo producto
       this.productoService.agregarProducto(formData).subscribe(
         (response) => {
           this.messageService.add({ severity: 'success', summary: 'Producto agregado', detail: 'El producto se agregó correctamente.' });
           this.obtenerProductos();
           this.productoForm.reset();
+          this.selectedFile = null;
         },
         (error) => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo agregar el producto.' });
@@ -180,7 +137,6 @@ export class ProductosComponent implements OnInit {
       );
     }
   }
-  
 
   obtenerProductos() {
     this.productoService.obtenerProductos().subscribe((response: any) => {

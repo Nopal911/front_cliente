@@ -1,33 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Carrito } from '../interfaces/carrito';  // Asegúrate de tener una interfaz Carrito
+import { Carrito } from '../interfaces/carrito';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
-  private baseURL = 'http://localhost:3000/carrito';  // URL correcta del backend
+  private baseURL = 'http://localhost:3000/carrito';
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todos los productos en el carrito
+  getCarritoDetalle(email: string) {
+    return this.http.get<any>(`${this.baseURL}/carritolist/${email}`);
+  }
+
   getCarrito(): Observable<any> {
     return this.http.get(`${this.baseURL}`);
   }
 
-  // Agregar un producto al carrito
   addCarrito(carrito: Carrito): Observable<any> {
     return this.http.post(`${this.baseURL}`, carrito);
   }
 
-  // Actualizar un producto en el carrito
   updateCarrito(carrito: Carrito): Observable<any> {
     return this.http.put(`${this.baseURL}/${carrito.id}`, carrito);
   }  
-  
-  // Eliminar un producto del carrito por ID
+
   deleteCarrito(id: number): Observable<any> {
     return this.http.delete(`${this.baseURL}/${id}`);
+  }
+
+  // Nuevo método para limpiar todo el carrito de un usuario
+  clearCarrito(email: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/clear/${email}`);
   }
 }

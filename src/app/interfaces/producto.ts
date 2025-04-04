@@ -10,4 +10,5 @@ export interface Producto {
   talla: string;
   //imagen_url: string[]; // array de URLs de imágenes
   imagenes: string[];
+  usuario_email: string;
 }

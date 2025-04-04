@@ -8,11 +8,11 @@ import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { NavbarComponent } from '../navbar/navbar.component';
-
+import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-ordenes',
   templateUrl: './ordenes.component.html',
-  imports: [FormsModule,ButtonModule,TableModule,CommonModule,CardModule,NavbarComponent],
+  imports: [FormsModule, ButtonModule, TableModule, CommonModule, CardModule, NavbarComponent,ToastModule],
   styleUrls: ['./ordenes.component.css'],
   providers: [MessageService]
 })
@@ -22,81 +22,162 @@ export class OrdenesComponent implements OnInit {
   selectedOrderId: number | null = null;
   editMode: boolean = false;
 
-  constructor(private ordenService: OrdenService, private messageService: MessageService) {}
+  constructor(
+    private ordenService: OrdenService, 
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getOrdenes();
   }
 
   getOrdenes(): void {
-    this.ordenService.getOrdenes().subscribe(
-      (response) => {
+    this.ordenService.getOrdenes().subscribe({
+      next: (response) => {
         this.ordenes = response.ordenes;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Órdenes cargadas',
+          detail: 'Lista de órdenes actualizada',
+          life: 3000
+        });
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching orders', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudieron cargar las órdenes.' });
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'No se pudieron cargar las órdenes',
+          life: 3000
+        });
       }
-    );
+    });
   }
 
   addOrden(): void {
-    this.ordenService.addOrden(this.newOrden).subscribe(
-      () => {
-        this.messageService.add({ severity: 'success', summary: 'Orden Agregada', detail: 'La nueva orden se ha agregado correctamente.' });
+    // Validar email del usuario
+    const userEmail = sessionStorage.getItem('email');
+    if (!userEmail) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Acción requerida',
+        detail: 'Debes iniciar sesión para crear una orden',
+        life: 3000
+      });
+      return;
+    }
+
+    this.newOrden.usuario_email = userEmail;
+    
+    this.ordenService.addOrden(this.newOrden).subscribe({
+      next: () => {
+        this.messageService.add({ 
+          severity: 'success', 
+          summary: 'Éxito', 
+          detail: 'Orden creada correctamente',
+          life: 3000
+        });
         this.getOrdenes();
         this.clearForm();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error adding order', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo agregar la orden.' });
+        this.messageService.add({ 
+          severity: 'error', 
+          summary: 'Error', 
+          detail: 'Error al crear la orden: ' + error.message,
+          life: 3000
+        });
       }
-    );
+    });
   }
 
   editOrder(order: Orden): void {
     this.selectedOrderId = order.id ?? null;
     this.newOrden = { ...order };
     this.editMode = true;
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Modo edición',
+      detail: 'Estás editando la orden #' + order.id,
+      life: 3000
+    });
   }
 
   updateOrden(): void {
     if (this.selectedOrderId) {
-        const ordenToUpdate = { 
-            ...this.newOrden,
-            id: this.selectedOrderId
-        };
- 
-        this.ordenService.updateOrden(ordenToUpdate).subscribe(
-            () => {
-                this.messageService.add({ severity: 'success', summary: 'Orden Actualizada', detail: 'La orden se ha actualizado correctamente.' });
-                this.getOrdenes();
-                this.clearForm();
-            },
-            (error) => {
-                console.error('Error updating order', error);
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar la orden.' });
-            }
-        );
+      const ordenToUpdate = { 
+        ...this.newOrden,
+        id: this.selectedOrderId
+      };
+
+      this.ordenService.updateOrden(ordenToUpdate).subscribe({
+        next: () => {
+          this.messageService.add({ 
+            severity: 'success', 
+            summary: 'Actualizado', 
+            detail: 'Orden actualizada correctamente',
+            life: 3000
+          });
+          this.getOrdenes();
+          this.clearForm();
+        },
+        error: (error) => {
+          console.error('Error updating order', error);
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Error', 
+            detail: 'Error al actualizar: ' + error.message,
+            life: 3000
+          });
+        }
+      });
     }
- }
- 
+  }
 
   deleteOrden(id: number): void {
-    this.ordenService.deleteOrden(id).subscribe(
-      () => {
-        this.messageService.add({ severity: 'success', summary: 'Orden Eliminada', detail: 'La orden se ha eliminado correctamente.' });
-        this.getOrdenes();
-      },
-      (error) => {
-        console.error('Error deleting order', error);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se pudo eliminar la orden.' });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Confirmar',
+      detail: '¿Estás seguro de eliminar esta orden?',
+      life: 3000,
+      sticky: true,
+      closable: true,
+      data: {
+        action: () => {
+          this.ordenService.deleteOrden(id).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Eliminada',
+                detail: 'Orden eliminada correctamente',
+                life: 3000
+              });
+              this.getOrdenes();
+            },
+            error: (error) => {
+              console.error('Error deleting order', error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'No se pudo eliminar la orden',
+                life: 3000
+              });
+            }
+          });
+        }
       }
-    );
+    });
   }
 
   clearForm(): void {
     this.newOrden = { id: undefined, usuario_email: '', fecha: '', total: 0, estado: 'pendiente' };
     this.editMode = false;
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Formulario',
+      detail: 'Formulario reiniciado',
+      life: 2000
+    });
   }
 }

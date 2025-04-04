@@ -1,6 +1,6 @@
 <app-toolbar></app-toolbar>
 <p></p>
-<form [formGroup]="registroForma" (ngSubmit)="enviarRegistro()">
+<form [formGroup]="registroForma" (ngSubmit)="onSubmit()">
   <p-card header="" [style]="{width: '900px'}">
     <div class="field">
       <!-- Título Registro centrado y con línea azul -->
@@ -60,9 +60,63 @@
       <p>
         <p-button label="Registrarse" styleClass="w-full" [style]="{backgroundColor: '#007bff', borderColor: '#007bff', color: 'white'}" [disabled]="registroForma.invalid" type="submit"></p-button>
       </p>
+      
       <div class="mt-2">
         Ya tienes cuenta? <a routerLink="/login" style="color: blue;">Ingresar</a>
       </div>
     </div>
   </p-card>
+
+  <!-- Modal -->
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-contenido">
+      <div class="modal-info">
+        <h3>Términos y Condiciones</h3>
+        <p>Acepta nuestros términos y condiciones para completar el registro.</p>
+        <h5>1. Aceptación de los Términos
+          Al registrarse o realizar una compra en nuestro sitio web, usted acepta los presentes términos y condiciones, así como nuestra Política de Privacidad. Si no está de acuerdo con alguna de las condiciones, por favor no utilice nuestro servicio.
+          
+          2. Uso del Sitio Web
+          Este sitio está destinado únicamente para su uso personal y no comercial. El uso indebido del sitio, incluyendo la compra de productos con fines fraudulentos, está estrictamente prohibido. Nos reservamos el derecho de suspender o cancelar cuentas que violen estos términos.
+          
+          3. Productos y Precios
+          Nos esforzamos por mantener la exactitud de la información sobre los productos, pero no garantizamos que todos los productos estén siempre disponibles. Los precios están sujetos a cambios sin previo aviso. Nos reservamos el derecho de modificar precios y/o detalles de los productos en cualquier momento.
+          
+          4. Proceso de Compra
+          Al agregar productos al carrito de compras, y proceder con el pago, usted confirma que la información proporcionada es correcta y completa. Nos reservamos el derecho de rechazar cualquier pedido o transacción si consideramos que la información proporcionada es incorrecta o si se detecta una irregularidad.
+          
+          5. Pagos
+          Aceptamos [indicar métodos de pago disponibles: tarjetas de crédito, débito, PayPal, etc.]. El pago debe realizarse en su totalidad en el momento de la compra. El servicio de pago está sujeto a los términos y condiciones de los proveedores de pago.
+          
+          6. Envíos y Entregas
+          Nos comprometemos a procesar y enviar los pedidos dentro de un plazo razonable, pero no garantizamos fechas de entrega exactas. Los tiempos de envío pueden variar dependiendo de su ubicación. Cualquier retraso en el envío o problemas con la entrega no serán responsabilidad de nuestra empresa.
+          
+          7. Devoluciones y Reembolsos
+          Nuestro objetivo es que esté completamente satisfecho con su compra. Si no está satisfecho con su pedido, ofrecemos una política de devolución dentro de [X] días después de recibir el producto. Los productos deben estar en su estado original. Para más detalles, consulte nuestra política de devoluciones.
+          
+          8. Protección de Datos Personales
+          Recopilamos y procesamos sus datos personales de acuerdo con nuestra Política de Privacidad, la cual está disponible en el sitio web. Al realizar una compra, usted acepta el uso de sus datos según los términos de nuestra política.
+          
+          9. Limitación de Responsabilidad
+          Nuestra empresa no será responsable por daños indirectos, incidentales o consecuentes que puedan surgir del uso de este sitio o la compra de productos, incluyendo la pérdida de beneficios o datos.
+          
+          10. Modificaciones de los Términos
+          Nos reservamos el derecho de modificar estos términos en cualquier momento. Las modificaciones serán publicadas en esta página. Se le recomienda revisar los términos periódicamente.
+          
+          11. Jurisdicción y Ley Aplicable
+          Estos términos y condiciones se rigen por las leyes de [país o estado]. Cualquier disputa que surja en relación con el uso de este sitio será resuelta en los tribunales competentes de [jurisdicción].
+          
+          12. Contacto
+          Si tiene alguna pregunta sobre estos términos y condiciones, puede ponerse en contacto con nosotros a través de:
+          Correo electrónico: [tu correo electrónico]
+          Teléfono: [tu número de teléfono]
+          
+          </h5>
+        <div class="modal-botones">
+          <button class="modal-agregar" (click)="aceptarTerminos()">Aceptar</button>
+          <button (click)="cancelarTerminos()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
